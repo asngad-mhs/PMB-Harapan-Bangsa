@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { AcademicCapIcon } from './icons/AcademicCapIcon';
 
@@ -21,6 +20,7 @@ const Header: React.FC = () => {
           <span className="text-xl font-bold text-gray-800">UHB</span>
         </a>
 
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <a key={link.href} href={link.href} className="text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium">
@@ -36,8 +36,14 @@ const Header: React.FC = () => {
           Daftar Sekarang
         </a>
 
+        {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800 focus:outline-none">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-gray-800 focus:outline-none p-2 rounded-md hover:bg-gray-100"
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}></path>
             </svg>
@@ -45,24 +51,36 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <nav className="flex flex-col items-center space-y-4 py-4">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-gray-600 hover:text-blue-600 font-medium">
-                {link.label}
-              </a>
-            ))}
+      {/* Mobile Menu */}
+      <div
+        className={`
+          md:hidden overflow-hidden transition-all duration-300 ease-in-out
+          bg-white border-t border-gray-200
+        `}
+        style={{ maxHeight: isMenuOpen ? '400px' : '0' }}
+      >
+        <nav className="flex flex-col px-4 pt-2 pb-4 space-y-1">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsMenuOpen(false)}
+              className="block text-gray-700 hover:text-blue-600 hover:bg-gray-100 font-medium py-2 px-3 rounded-md text-left transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
+          <div className="pt-2">
             <a
               href="#daftar"
               onClick={() => setIsMenuOpen(false)}
-              className="w-full text-center mx-6 bg-blue-600 text-white font-semibold px-5 py-3 rounded-full hover:bg-blue-700 transition-colors"
+              className="block w-full text-center bg-blue-600 text-white font-semibold px-5 py-3 rounded-full hover:bg-blue-700 transition-colors"
             >
               Daftar Sekarang
             </a>
-          </nav>
-        </div>
-      )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };
